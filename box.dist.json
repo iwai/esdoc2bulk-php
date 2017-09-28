@@ -1,0 +1,20 @@
+{
+  "chmod": "0755",
+  "files": [
+    "vendor/autoload.php"
+  ],
+  "finder": [
+    {
+      "name": "*.php",
+      "exclude": [ "tests" ],
+      "in": [
+        "src",
+        "vendor/chh",
+        "vendor/composer"
+      ]
+    }
+  ],
+  "main": "bin/esdoc2bulk.php",
+  "output": "bin/esdoc2bulk.phar",
+  "stub": true
+}
