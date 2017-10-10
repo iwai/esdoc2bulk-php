@@ -34,6 +34,7 @@ $parser->setExamples([
 $action  = null;
 $upsert  = null;
 $doc_as_upsert  = false;
+$partial_doc    = null;
 $index   = null;
 $type    = null;
 $routing = null;
@@ -44,7 +45,8 @@ $parser->addFlag('verbose', [ 'alias' => '-v' ]);
 
 $parser->addFlagVar('action', $action, [ 'has_value' => true, 'required' => true ]);
 $parser->addFlagVar('upsert', $upsert, [ 'has_value' => true ]);
-$parser->addFlag('doc_as_upsert');
+$parser->addFlag('doc_as_upsert', [ 'default' => false ]);
+$parser->addFlagVar('partial_doc', $partial_doc, [ 'has_value' => true ]);
 
 $parser->addFlagVar('index', $index, [ 'has_value' => true ]);
 $parser->addFlagVar('type', $type, [ 'has_value' => true ]);
@@ -126,7 +128,9 @@ try {
             if ($script) {
                 $source = $doc2bulk->getScript($script);
             } else {
-                $source = $doc2bulk->getDoc($doc_as_upsert);
+                $doc_as_upsert = $parser['doc_as_upsert'];
+
+                $source = $doc2bulk->getDoc($doc_as_upsert, $partial_doc);
             }
 
             echo json_encode($meta), "\n";

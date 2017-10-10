@@ -84,11 +84,17 @@ class Esdoc2Bulk
         return $this->doc['_source'];
     }
 
-    public function getDoc($docAsUpsert = false)
+    public function getDoc($docAsUpsert = false, $partial_doc = null)
     {
-        $source = [
-            'doc' => $this->doc['_source']
-        ];
+        if ($partial_doc) {
+            $source = [
+                'doc' => json_decode($partial_doc, JSON_OBJECT_AS_ARRAY)
+            ];
+        } else {
+            $source = [
+                'doc' => $this->doc['_source']
+            ];
+        }
         if ($docAsUpsert) {
             $source['doc_as_upsert'] = true;
         }
